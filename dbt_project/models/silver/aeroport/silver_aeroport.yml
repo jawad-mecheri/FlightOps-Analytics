@@ -2,7 +2,7 @@ version: 2
 
 models:
   - name: silver_aeroport
-    description: "Table Silver enrichie des aéroports, issue du modèle stg_aeroport. Seules les colonnes essentielles sont conservées et les enregistrements avec des valeurs nulles sur ces colonnes sont filtrés."
+    description: "Table Silver  des aéroports US , issue du modèle stg_aeroport. Seules les colonnes essentielles sont conservées et les enregistrements avec des valeurs nulles sur ces colonnes sont filtrés."
     columns:
       - name: id_aeroport
         description: "Identifiant unique de l'aéroport."
