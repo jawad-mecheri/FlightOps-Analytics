@@ -1,0 +1,98 @@
+version: 2
+
+models:
+  - name: silver_aeroport
+    description: "Table Silver enrichie des aéroports, issue du modèle stg_aeroport. Seules les colonnes essentielles sont conservées et les enregistrements avec des valeurs nulles sur ces colonnes sont filtrés."
+    columns:
+      - name: id_aeroport
+        description: "Identifiant unique de l'aéroport."
+        tests:
+          - unique
+          - not_null
+
+      - name: ident
+        description: "Code identifiant de l'aéroport."
+        tests:
+          - not_null
+
+      - name: type
+        description: "Type d'aéroport."
+        tests:
+          - not_null
+
+      - name: name
+        description: "Nom de l'aéroport."
+        tests:
+          - not_null
+
+      - name: latitude_deg
+        description: "Latitude en degrés."
+        tests:
+          - not_null
+          - accepted_range:
+              min_value: -90
+              max_value: 90
+
+      - name: longitude_deg
+        description: "Longitude en degrés."
+        tests:
+          - not_null
+          - accepted_range:
+              min_value: -180
+              max_value: 180
+
+      - name: elevation_ft
+        description: "Altitude de l'aéroport en pieds."
+        tests:
+          - not_null
+
+      - name: country_name
+        description: "Nom du pays où se situe l'aéroport."
+        tests:
+          - not_null
+
+      - name: iso_country
+        description: "Code ISO du pays."
+        tests:
+          - not_null
+
+      - name: region_name
+        description: "Nom de la région."
+        tests:
+          - not_null
+
+      - name: local_region
+        description: "Nom de la région locale."
+        tests:
+          - not_null
+
+      - name: municipality
+        description: "Municipalité ou ville de l'aéroport."
+        tests:
+          - not_null
+
+
+      - name: gps_code
+        description: "Code GPS de l'aéroport."
+        tests:
+          - not_null
+
+      - name: icao_code
+        description: "Code ICAO de l'aéroport."
+        tests:
+          - not_null
+
+      - name: iata_code
+        description: "Code IATA de l'aéroport."
+        tests:
+          - not_null
+
+      - name: local_code
+        description: "Code local de l'aéroport."
+        tests:
+          - not_null
+
+      - name: home_link
+        description: "Lien vers le site officiel de l'aéroport."
+        tests:
+          - not_null

@@ -66,7 +66,7 @@ models:
               max_value: 2400
 
       - name: WHEELS_ON
-        description: "Heure d'atterrissage (format HHMM, de 0 à 2400)."
+        description: "Heure d'atterrissage (format HHMM)."
         tests:
           - not_null
           - accepted_range:
