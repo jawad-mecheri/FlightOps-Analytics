@@ -1,0 +1,181 @@
+version: 2
+
+models:
+  - name: stg_flight
+    description: "Table Bronze consolidant les données homogènes de vols de 2009 à 2018."
+    columns:
+      - name: FL_DATE
+        description: "Date du vol."
+        tests:
+          - not_null
+
+      - name: op_carrier
+        description: "Code transporteur (OP_CARRIER)."
+        tests:
+          - not_null
+
+      - name: OP_CARRIER_FL_NUM
+        description: "Numéro de vol, compris entre 0 et 9999."
+        tests:
+          - not_null
+          - accepted_range:
+              min_value: 0
+              max_value: 9999
+
+      - name: ORIGIN
+        description: "Aéroport d'origine."
+        tests:
+          - not_null
+
+      - name: DEST
+        description: "Aéroport de destination."
+        tests:
+          - not_null
+
+      - name: CRS_DEP_TIME
+        description: "Heure de départ planifiée (format HHMM, de 0 à 2359)."
+        tests:
+          - not_null
+          - accepted_range:
+              min_value: 0
+              max_value: 2359
+
+      - name: DEP_TIME
+        description: "Heure de départ réelle (format HHMM, de 0 à 2359)."
+        tests:
+          - not_null
+          - accepted_range:
+              min_value: 0
+              max_value: 2400
+
+      - name: DEP_DELAY
+        description: "Délai de départ (en minutes)."
+        tests:
+          - not_null
+
+      - name: TAXI_OUT
+        description: "Temps taxi out, pas négatif."
+        tests:
+          - not_null
+          - accepted_range:
+              min_value: 0
+
+      - name: WHEELS_OFF
+        description: "Heure de décollage (format HHMM, de 0 à 2359)."
+        tests:
+          - not_null
+          - accepted_range:
+              min_value: 0
+              max_value: 2400
+
+      - name: WHEELS_ON
+        description: "Heure d'atterrissage (format HHMM, de 0 à 2359)."
+        tests:
+          - not_null
+          - accepted_range:
+              min_value: 0
+              max_value: 2400
+
+      - name: TAXI_IN
+        description: "Temps taxi in, pas négatif."
+        tests:
+          - not_null
+          - accepted_range:
+              min_value: 0
+
+      - name: CRS_ARR_TIME
+        description: "Heure d'arrivée planifiée (format HHMM, de 0 à 2359)."
+        tests:
+          - not_null
+          - accepted_range:
+              min_value: 0
+              max_value: 2400
+
+      - name: ARR_TIME
+        description: "Heure d'arrivée réelle (format HHMM, de 0 à 2359)."
+        tests:
+          - not_null
+          - accepted_range:
+              min_value: 0
+              max_value: 2400
+
+      - name: ARR_DELAY
+        description: "Délai d'arrivée (en minutes)."
+        tests:
+          - not_null
+
+      - name: CANCELLED
+        description: "Indique si le vol est annulé. Doit être 0 ou 1."
+        tests:
+          - not_null
+          - accepted_values_bool:
+              values: [true, false]
+
+      - name: DIVERTED
+        description: "Indique si le vol a été détourné. Doit être 0 ou 1."
+        tests:
+          - accepted_values_bool:
+              values: [true, false]
+      - name: CRS_ELAPSED_TIME
+        description: "Durée prévue du vol, pas négative."
+        tests:
+          - not_null
+          - accepted_range:
+              min_value: 0
+
+      - name: ACTUAL_ELAPSED_TIME
+        description: "Durée effective du vol, pas négative."
+        tests:
+          - not_null
+          - accepted_range:
+              min_value: 0
+
+      - name: DISTANCE
+        description: "Distance parcourue, pas négative."
+        tests:
+          - not_null
+          - accepted_range:
+              min_value: 0
+
+      - name: CANCELLATION_CODE
+        description: "Code d'annulation: soit null, soit 'A', 'B', 'C' ou 'D'."
+        tests:
+          - accepted_values:
+              values: ["A", "B", "C", "D"]
+
+      - name: AIR_TIME
+        description: "Temps de vol, pas négatif."
+        tests:
+          - not_null
+          - accepted_range:
+              min_value: 0
+
+      - name: CARRIER_DELAY
+        description: "Délai lié au transporteur, pas négatif."
+        tests:
+          - accepted_range:
+              min_value: 0
+
+      - name: WEATHER_DELAY
+        description: "Délai lié aux conditions météo, pas négatif."
+        tests:
+          - accepted_range:
+              min_value: 0
+
+      - name: NAS_DELAY
+        description: "Délai lié aux problèmes du système national d'aviation, pas négatif."
+        tests:
+          - accepted_range:
+              min_value: 0
+
+      - name: SECURITY_DELAY
+        description: "Délai lié à la sécurité, pas négatif."
+        tests:
+          - accepted_range:
+              min_value: 0
+
+      - name: LATE_AIRCRAFT_DELAY
+        description: "Délai dû au retard de l'avion précédent, pas négatif."
+        tests:
+          - accepted_range:
+              min_value: 0
