@@ -30,13 +30,7 @@ where
   and latitude_deg is not null
   and longitude_deg is not null
   and elevation_ft is not null
-  and country_name is not null
-  and iso_country is not null
   and region_name is not null
-  and local_region is not null
   and municipality is not null
-  and gps_code is not null
-  and icao_code is not null
-  and iata_code is not null
   and local_code is not null
-  and home_link is not null
+  and iata_code is not null

@@ -48,8 +48,6 @@ models:
 
       - name: country_name
         description: "Nom du pays où se situe l'aéroport."
-        tests:
-          - not_null
 
       - name: iso_country
         description: "Code ISO du pays."
@@ -63,36 +61,24 @@ models:
 
       - name: local_region
         description: "Nom de la région locale."
-        tests:
-          - not_null
+
 
       - name: municipality
         description: "Municipalité ou ville de l'aéroport."
-        tests:
-          - not_null
-
 
       - name: gps_code
         description: "Code GPS de l'aéroport."
-        tests:
-          - not_null
 
       - name: icao_code
         description: "Code ICAO de l'aéroport."
-        tests:
-          - not_null
 
       - name: iata_code
         description: "Code IATA de l'aéroport."
         tests:
           - not_null
-
+          
       - name: local_code
         description: "Code local de l'aéroport."
-        tests:
-          - not_null
 
       - name: home_link
         description: "Lien vers le site officiel de l'aéroport."
-        tests:
-          - not_null
