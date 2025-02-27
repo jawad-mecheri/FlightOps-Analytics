@@ -1,0 +1,9 @@
+version: 2
+
+sources:
+  - name: aeroport_data
+    schema: aeroport_data
+    tables:
+      - name: "aeroport_data_raw"
+
+

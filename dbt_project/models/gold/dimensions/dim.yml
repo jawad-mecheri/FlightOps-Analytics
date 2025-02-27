@@ -1,0 +1,133 @@
+version: 2
+
+models:
+  - name: dim_airport
+    description: "Dimension des aéroports enrichie, regroupant les informations de localisation, codes et caractéristiques de chaque aéroport."
+    columns:
+      - name: airport_key
+        description: "Identifiant unique de l'aéroport."
+        tests:
+          - unique
+          - not_null
+      - name: ident
+        description: "Code identifiant de l'aéroport."
+      - name: type
+        description: "Type d'aéroport (par exemple international, régional)."
+      - name: name
+        description: "Nom complet de l'aéroport."
+      - name: latitude_deg
+        description: "Latitude de l'aéroport en degrés."
+      - name: longitude_deg
+        description: "Longitude de l'aéroport en degrés."
+      - name: elevation_ft
+        description: "Altitude de l'aéroport en pieds."
+      - name: country_name
+        description: "Nom du pays où se situe l'aéroport."
+      - name: iso_country
+        description: "Code ISO du pays."
+      - name: region_name
+        description: "Nom de la région administrative."
+      - name: local_region
+        description: "Nom de la région locale."
+      - name: municipality
+        description: "Municipalité ou ville où se trouve l'aéroport."
+      - name: gps_code
+        description: "Code GPS de l'aéroport."
+      - name: icao_code
+        description: "Code ICAO de l'aéroport."
+      - name: iata_code
+        description: "Code IATA de l'aéroport."
+      - name: local_code
+        description: "Code local de l'aéroport."
+      - name: home_link
+        description: "Lien vers la page officielle ou Wikipédia de l'aéroport."
+
+  - name: dim_carrier
+    description: "Dimension regroupant les informations sur les compagnies aériennes."
+    columns:
+      - name: carrier_key
+        description: "Identifiant unique de la compagnie aérienne."
+        tests:
+          - unique
+          - not_null
+      - name: op_carrier_code
+        description: "Code opérateur de la compagnie aérienne."
+        tests:
+          - not_null
+      - name: airline_name
+        description: "Nom complet de la compagnie aérienne."
+
+  - name: dim_date
+    description: "Dimension temporelle générée à partir de la table de faits, offrant un contexte complet pour l'analyse des données par date."
+    columns:
+      - name: date_key
+        description: "Clé de date au format YYYYMMDD."
+        tests:
+          - unique
+          - not_null
+      - name: date_full
+        description: "La date complète (YYYY-MM-DD)."
+        tests:
+          - not_null
+      - name: year
+        description: "Année extraite de la date."
+      - name: month
+        description: "Mois extrait de la date."
+      - name: day
+        description: "Jour du mois."
+      - name: week_of_year
+        description: "Numéro de la semaine dans l'année."
+      - name: day_of_week
+        description: "Jour de la semaine (1=Dimanche à 7=Samedi)."
+      - name: holiday_flag
+        description: "Indicateur booléen précisant si la date correspond à un jour férié."
+      - name: holiday_name
+        description: "Nom du jour férié associé à la date. Ce champ indique, par exemple, 'New Year's Day', 'Independence Day', 'Thanksgiving Day', etc., et permet d'analyser l'impact des jours fériés sur les opérations. Si la date n'est pas un jour férié, la valeur sera nulle."
+
+
+  - name: dim_time
+    description: "Dimension standardisant les horaires de la journée, permettant d'analyser les temps de départ et d'arrivée par tranche horaire."
+    columns:
+      - name: time_key
+        description: "Clé de temps, exprimée en minutes écoulées depuis minuit."
+        tests:
+          - unique
+          - not_null
+      - name: time_value
+        description: "Représentation de l'heure au format HH:MM."
+      - name: hour
+        description: "Heure extraite de la valeur de temps."
+      - name: minute
+        description: "Minute extraite de la valeur de temps."
+      - name: period_of_day
+        description: "Période de la journée (Matin, Après-midi, Soir, Nuit) définie selon l'heure."
+
+  - name: dim_delay
+    description: "Dimension regroupant et normalisant les informations de délais des vols. Elle permet de classer les vols selon leur comportement de retard, de calculer le total des retards détaillés et de mesurer l'écart avec le retard global."
+    columns:
+      - name: flight_id
+        description: "Identifiant du vol auquel se rapporte l'analyse des délais."
+        tests:
+          - not_null
+      - name: ARR_DELAY
+        description: "Retard à l'arrivée (en minutes). Un retard négatif signifie que le vol est arrivé plus tôt que prévu."
+      - name: delay_category
+        description: >
+          "Catégorie du vol basée sur l'analyse du retard global et des détails :
+          - 'On time / Early' : ARR_DELAY ≤ 0.
+          - 'Delayed (unknown breakdown)' : ARR_DELAY > 0 et les détails de retard sont tous nuls.
+          - 'Delayed (with breakdown)' : ARR_DELAY > 0 et au moins un détail de retard est renseigné."
+      - name: carrier_delay_1
+        description: "Retard normalisé attribué à la compagnie (CARRIER_DELAY avec les NULL remplacés par 0)."
+      - name: weather_delay_1
+        description: "Retard normalisé dû aux conditions météorologiques (WEATHER_DELAY avec les NULL remplacés par 0)."
+      - name: nas_delay_1
+        description: "Retard normalisé lié aux problèmes du système national de l'aviation (NAS_DELAY avec les NULL remplacés par 0)."
+      - name: security_delay_1
+        description: "Retard normalisé dû aux problèmes de sécurité (SECURITY_DELAY avec les NULL remplacés par 0)."
+      - name: late_aircraft_delay_1
+        description: "Retard normalisé dû à l'arrivée tardive d'un avion (LATE_AIRCRAFT_DELAY avec les NULL remplacés par 0)."
+      - name: total_breakdown_delay
+        description: "Somme des retards détaillés normalisés (carrier_delay_1 + weather_delay_1 + nas_delay_1 + security_delay_1 + late_aircraft_delay_1)."
+      - name: delta_delay
+        description: "Différence entre ARR_DELAY et total_breakdown_delay, utilisée pour détecter d'éventuelles incohérences dans la répartition des retards."

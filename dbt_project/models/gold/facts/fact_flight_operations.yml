@@ -1,0 +1,97 @@
+version: 2
+
+models:
+  - name: fact_flight_operations
+    description: >
+      Table de faits détaillée regroupant l'ensemble des mesures relatives aux vols.
+      Cette table est la source principale pour l'analyse des opérations aériennes et permet de joindre les dimensions Date, Temps, Compagnie et Aéroport.
+    columns:
+      - name: flight_id
+        description: "Identifiant unique du vol."
+        tests:
+          - unique
+          - not_null
+      - name: FL_DATE
+        description: "Date du vol (format date)."
+        tests:
+          - not_null
+      - name: date_key
+        description: "Clé de date au format YYYYMMDD pour la jointure avec Dim_Date."
+        tests:
+          - not_null
+      - name: flight_year
+        description: "Année du vol."
+        tests:
+          - not_null
+      - name: carrier_code
+        description: "Code de la compagnie aérienne, issu de op_carrier."
+        tests:
+          - not_null
+      - name: OP_CARRIER_FL_NUM
+        description: "Numéro de vol attribué par la compagnie."
+        tests:
+          - not_null
+      - name: origin_airport_code
+        description: "Code de l'aéroport d'origine (correspond à local_code dans la dimension Aéroport)."
+        tests:
+          - not_null
+      - name: destination_airport_code
+        description: "Code de l'aéroport de destination (correspond à local_code dans la dimension Aéroport)."
+        tests:
+          - not_null
+      - name: dep_time
+        description: "Heure de départ au format HH:MM."
+        tests:
+          - not_null
+      - name: departure_time_key
+        description: "Clé de temps calculée en minutes écoulées depuis minuit pour l'heure de départ."
+        tests:
+          - not_null
+      - name: DEP_DELAY
+        description: "Retard au départ en minutes."
+      - name: TAXI_OUT
+        description: "Temps de taxi-out en minutes."
+      - name: wheels_off
+        description: "Heure à laquelle l'avion a quitté la piste (format HH:MM)."
+      - name: wheels_on
+        description: "Heure à laquelle l'avion a atterri sur la piste (format HH:MM)."
+      - name: TAXI_IN
+        description: "Temps de taxi-in en minutes."
+      - name: crs_arr_time
+        description: "Heure d'arrivée prévue (format HH:MM)."
+      - name: arr_time
+        description: "Heure d'arrivée réelle (format HH:MM)."
+        tests:
+          - not_null
+      - name: arrival_time_key
+        description: "Clé de temps calculée en minutes écoulées depuis minuit pour l'heure d'arrivée."
+        tests:
+          - not_null
+      - name: ARR_DELAY
+        description: "Retard à l'arrivée en minutes."
+      - name: CANCELLED
+        description: "Indicateur d'annulation du vol (booléen)."
+      - name: CANCELLATION_CODE
+        description: "Code expliquant la raison de l'annulation, le cas échéant."
+      - name: DIVERTED
+        description: "Indicateur indiquant si le vol a été détourné."
+      - name: CRS_ELAPSED_TIME
+        description: "Durée prévue du vol en minutes."
+      - name: ACTUAL_ELAPSED_TIME
+        description: "Durée réelle du vol en minutes."
+      - name: AIR_TIME
+        description: "Temps de vol effectif en minutes."
+      - name: distance_km
+        description: "Distance parcourue en kilomètres (convertie depuis les miles)."
+        tests:
+          - not_null
+      - name: CARRIER_DELAY
+        description: "Retard dû à la compagnie aérienne (en minutes)."
+      - name: WEATHER_DELAY
+        description: "Retard dû aux conditions météorologiques (en minutes)."
+      - name: NAS_DELAY
+        description: "Retard lié aux problèmes du système national de l'aviation (en minutes)."
+      - name: SECURITY_DELAY
+        description: "Retard dû à des problèmes de sécurité (en minutes)."
+      - name: LATE_AIRCRAFT_DELAY
+        description: "Retard dû à l'arrivée tardive d'un avion précédent (en minutes)."
