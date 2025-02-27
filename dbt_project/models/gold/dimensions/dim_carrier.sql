@@ -1,6 +1,6 @@
 with carriers as (
-  select distinct carrier_code as carrier_code
-  from {{ ref('fact_flight_operations') }}
+  select distinct op_carrier as carrier_code
+  from {{ ref('silver_flight_enriched') }}
 )
 
 select
