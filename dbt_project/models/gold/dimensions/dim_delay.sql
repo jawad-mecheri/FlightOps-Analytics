@@ -2,7 +2,7 @@ with flight_delay as (
   select
     flight_id,
     ARR_DELAY,
-    
+    DEP_DELAY, 
     coalesce(CARRIER_DELAY, 0) as carrier_delay_1,
     coalesce(WEATHER_DELAY, 0) as weather_delay_1,
     coalesce(NAS_DELAY, 0) as nas_delay_1,
@@ -42,7 +42,7 @@ with flight_delay as (
       + coalesce(LATE_AIRCRAFT_DELAY, 0)
     ) as delta_delay
     
-  from {{ ref('fact_flight_operations') }}
+  from {{ ref('silver_flight_enriched') }}
 )
 
 select *
