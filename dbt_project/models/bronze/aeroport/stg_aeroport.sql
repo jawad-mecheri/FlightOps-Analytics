@@ -1,0 +1,1 @@
+select * from  {{ source('aeroport_data', 'aeroport_data_raw') }}

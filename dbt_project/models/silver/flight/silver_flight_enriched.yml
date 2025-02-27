@@ -1,0 +1,119 @@
+version: 2
+
+models:
+  - name: silver_flight_enriched
+    description: "Table Silver enrichie des vols avec conversion des heures en format HH:MM, conversion de la distance en km et ajout d'un identifiant unique."
+    columns:
+      - name: flight_id
+        description: "Identifiant unique généré pour chaque vol."
+        tests:
+          - unique
+          - not_null
+      - name: FL_DATE
+        description: "Date du vol."
+        tests:
+          - not_null
+      - name: flight_year
+        description: "Année du vol."
+        tests:
+          - not_null
+      - name: op_carrier
+        description: "Code du transporteur."
+        tests:
+          - not_null
+      - name: OP_CARRIER_FL_NUM
+        description: "Numéro du vol."
+        tests:
+          - not_null
+      - name: ORIGIN
+        description: "Code de l'aéroport d'origine."
+        tests:
+          - not_null
+      - name: DEST
+        description: "Code de l'aéroport de destination."
+        tests:
+          - not_null
+      - name: dep_time
+        description: "Heure de départ réelle, au format HH:MM (les valeurs '2400' sont converties en '00:00')."
+        tests:
+          - not_null
+          - regex:
+              regex_pattern: "'^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$'"
+      - name: DEP_DELAY
+        description: "Délai de départ en minutes."
+        tests:
+          - not_null
+      - name: TAXI_OUT
+        description: "Temps de taxi out (en minutes)."
+        tests:
+          - not_null
+      - name: wheels_off
+        description: "Heure de décollage (format HH:MM)."
+        tests:
+          - not_null
+          - regex:
+              regex_pattern: "'^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$'"
+      - name: wheels_on
+        description: "Heure d'atterrissage (format HH:MM)."
+        tests:
+          - not_null
+          - regex:
+              regex_pattern: "'^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$'"
+      - name: TAXI_IN
+        description: "Temps de taxi in (en minutes)."
+        tests:
+          - not_null
+      - name: crs_arr_time
+        description: "Heure d'arrivée planifiée, au format HH:MM."
+        tests:
+          - not_null
+          - regex:
+              regex_pattern: "'^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$'"
+      - name: arr_time
+        description: "Heure d'arrivée réelle, au format HH:MM."
+        tests:
+          - not_null
+          - regex:
+              regex_pattern: "'^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$'"
+      - name: ARR_DELAY
+        description: "Délai d'arrivée en minutes."
+        tests:
+          - not_null
+      - name: CANCELLED
+        description: "Indicateur d'annulation (0 ou 1)."
+
+      - name: CANCELLATION_CODE
+        description: "Code d'annulation (peut être null)."
+      - name: DIVERTED
+        description: "Indicateur de détournement (0 ou 1)."
+
+      - name: CRS_ELAPSED_TIME
+        description: "Temps de vol planifié (en minutes)."
+        tests:
+          - not_null
+          - accepted_range:
+              min_value: 1
+      - name: ACTUAL_ELAPSED_TIME
+        description: "Temps de vol effectif (en minutes)."
+      - name: AIR_TIME
+        description: "Temps de vol (en minutes)."
+        tests:
+          - not_null
+          - accepted_range:
+              min_value: 0
+      - name: distance_km
+        description: "Distance parcourue en kilomètres."
+        tests:
+          - not_null
+          - accepted_range:
+              min_value: 0
+      - name: CARRIER_DELAY
+        description: "Délai lié au transporteur (en minutes)."
+      - name: WEATHER_DELAY
+        description: "Délai lié aux conditions météo (en minutes)."
+      - name: NAS_DELAY
+        description: "Délai lié aux problèmes du système national d'aviation (en minutes)."
+      - name: SECURITY_DELAY
+        description: "Délai lié à la sécurité (en minutes)."
+      - name: LATE_AIRCRAFT_DELAY
+        description: "Délai dû au retard de l'avion précédent (en minutes)."
