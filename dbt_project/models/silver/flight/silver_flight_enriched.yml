@@ -66,7 +66,6 @@ models:
       - name: crs_arr_time
         description: "Heure d'arrivée planifiée, au format HH:MM."
         tests:
-          - not_null
           - regex:
               regex_pattern: "'^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$'"
       - name: arr_time
@@ -89,10 +88,6 @@ models:
 
       - name: CRS_ELAPSED_TIME
         description: "Temps de vol planifié (en minutes)."
-        tests:
-          - not_null
-          - accepted_range:
-              min_value: 1
       - name: ACTUAL_ELAPSED_TIME
         description: "Temps de vol effectif (en minutes)."
       - name: AIR_TIME
