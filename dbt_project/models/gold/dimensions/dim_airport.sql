@@ -1,12 +1,12 @@
 
 with flight_airports as (
-  select origin_airport_code as airport_code
-  from {{ ref('fact_flight_operations') }}
+  select ORIGIN as airport_code
+  from {{ ref('silver_flight_enriched') }}
   
   union all
   
-  select destination_airport_code as airport_code
-  from {{ ref('fact_flight_operations') }}
+  select DEST as airport_code
+  from {{ ref('silver_flight_enriched') }}
 ),
 
 unique_airports as (
