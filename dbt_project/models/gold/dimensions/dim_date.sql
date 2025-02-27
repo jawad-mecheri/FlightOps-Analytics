@@ -2,9 +2,8 @@
 
 with date_range as (
   select 
-    min(FL_DATE) as min_date,
-    max(FL_DATE) as max_date
-  from {{ ref('fact_flight_operations') }}
+    DATE('2009-01-01') as min_date,
+    DATE('2020-12-12') as max_date
 ),
 
 dates as (
@@ -100,4 +99,3 @@ select
 from dates d
 left join us_holidays h
   on d.date_full = h.holiday_date
-

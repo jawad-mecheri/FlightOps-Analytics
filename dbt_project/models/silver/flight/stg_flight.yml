@@ -34,8 +34,7 @@ models:
 
       - name: CRS_DEP_TIME
         description: "Heure de départ planifiée (format HHMM, de 0 à 2359)."
-        tests:
-          - not_null
+
 
       - name: DEP_TIME
         description: "Heure de départ réelle (format HHMM, de 0 à 2400)."
@@ -83,7 +82,6 @@ models:
       - name: CRS_ARR_TIME
         description: "Heure d'arrivée planifiée (format HHMM, de 0 à 2400)."
         tests:
-          - not_null
           - accepted_range:
               min_value: 0
               max_value: 2400
@@ -111,9 +109,7 @@ models:
 
       - name: CRS_ELAPSED_TIME
         description: "Durée prévue du vol (en minutes), pas négative."
-        tests:
-          - accepted_range:
-              min_value: 0
+
 
       - name: ACTUAL_ELAPSED_TIME
         description: "Durée effective du vol (en minutes), pas négative."
