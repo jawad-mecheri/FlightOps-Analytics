@@ -12,3 +12,4 @@ with base as (
 
 select *
 from base
+ORDER BY flight_year desc 
