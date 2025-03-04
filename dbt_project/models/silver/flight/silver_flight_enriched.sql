@@ -51,8 +51,16 @@ select
       "%H:%M",
       PARSE_TIME("%H%M", LPAD(CAST(CRS_ARR_TIME AS STRING), 4, '0'))
     )
-  END AS crs_arr_time,
+  END AS CRS_ARR_TIME,
 
+  -- CRS_DEP_TIME
+  CASE
+    WHEN CAST(CRS_DEP_TIME AS STRING) = '2400' THEN "00:00"
+    ELSE FORMAT_TIME(
+      "%H:%M",
+      PARSE_TIME("%H%M", LPAD(CAST(CRS_DEP_TIME AS STRING), 4, '0'))
+    )
+  END AS CRS_DEP_TIME,
   -- ARR_TIME
   CASE
     WHEN CAST(ARR_TIME AS STRING) = '2400' THEN "00:00"
@@ -96,7 +104,5 @@ where
   and ARR_DELAY is not null
   and AIR_TIME is not null
   and DISTANCE is not null
-  and CRS_ELAPSED_TIME is not null
   and CRS_ARR_TIME is not null
   and DEP_TIME >= 0 and DEP_TIME <= 2400
-  and CRS_ELAPSED_TIME > 0
